@@ -31,15 +31,15 @@ func handleLibCommands(tokens []string) {
 				fmt.Println("USAGE: lib add <name><artist><source><type>")
 			}
 		}
-	case "remove":
-		if len(tokens) == 3 {
-			lib.RemoveByName(tokens[2])
-		} else {
-			fmt.Println("USAGE: lib remove <name>")
+		case "remove":
+			if len(tokens) == 3 {
+				lib.RemoveByName(tokens[2])
+			} else {
+				fmt.Println("USAGE: lib remove <name>")
+			}
+		default:
+			fmt.Println("Unrecongized lib command:", tokens[1])
 		}
-	default:
-		fmt.Println("Unrecongized lib command:", tokens[1])
-	}
 }
 
 func handlePlayCommand(tokens []string) {
@@ -54,17 +54,17 @@ func handlePlayCommand(tokens []string) {
 		return
 	}
 
-	mp.Play(e.Source, e.Type, ctrl, signal)
+	mp.Play(e.Source, e.Type) //, ctrl, signal)
 }
 
 func main() {
-	fmt.Println('
-		Enter following commands to control the player:
-		lib list -- View the existing music lib
-		lib add <name><artist><source><type> -- Add a music to the music lib
-		lib remove <name> -- Remove the specified music from the lib
-		play <name> -- Play the specified music
-		')
+	fmt.Println(`
+	Enter following commands to control the player:
+	lib list -- View the existing music lib
+	lib add <name><artist><source><type> -- Add a music to the music lib
+	lib remove <name> -- Remove the specified music from the lib
+	play <name> -- Play the specified music
+	`)
 	
 	lib = library.NewMusicManager()
 	r := bufio.NewReader(os.Stdin)
@@ -80,7 +80,7 @@ func main() {
 		tokens := strings.Split(line, " ")
 		if tokens[0] == "lib" {
 			handleLibCommands(tokens)
-		} elseif tokens[0] == "play" {
+		} else if tokens[0] == "play" {
 			handlePlayCommand(tokens)
 		} else {
 			fmt.Println("Unrecongnized command:", tokens[0])

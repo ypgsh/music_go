@@ -1,6 +1,14 @@
 package library
 
-import "error"
+import "errors"
+
+type MusicEntry struct {
+	Id string
+	Name string
+	Artist string
+	Source string
+	Type string
+}
 
 type MusicManager struct {
 	musics []MusicEntry
@@ -11,7 +19,7 @@ func NewMusicManager() *MusicManager {
 }
 
 func (m *MusicManager) Len() int {
-	return len(m.musices)
+	return len(m.musics)
 }
 
 func (m *MusicManager) Get(index int) (music *MusicEntry, err error) {
@@ -51,4 +59,8 @@ func (m *MusicManager) Remove(index int) *MusicEntry {
 		m.musics = m.musics[:index - 1]
 	}
 	return removedMusic
+}
+
+func (m *MusicManager)RemoveByName(name string) *MusicEntry {
+    return nil
 }
