@@ -17,29 +17,30 @@ var ctrl, signal chan int
 
 func handleLibCommands(tokens []string) {
 	switch tokens[1] {
-	    case "list":
-            for i := 0; i < lib.Len(); i++ {
-				e, _ := lib.Get(i)
-				fmt.Println(i + 1, ":", e.Name, e.Artist, e.Source, e.Type)
-			}
-		case "add": {
+	case "list":
+		for i := 0; i < lib.Len(); i++ {
+			e, _ := lib.Get(i)
+			fmt.Println(i+1, ":", e.Name, e.Artist, e.Source, e.Type)
+		}
+	case "add":
+		{
 			if len(tokens) == 6 {
 				id++
-				lib.Add(&library.MusicEntry{strconv.Itoa(id), tokens[2], tokens[3], 
-					                        tokens[4], tokens[5]})
+				lib.Add(&library.MusicEntry{strconv.Itoa(id), tokens[2], tokens[3],
+					tokens[4], tokens[5]})
 			} else {
 				fmt.Println("USAGE: lib add <name><artist><source><type>")
 			}
 		}
-		case "remove":
-			if len(tokens) == 3 {
-				lib.RemoveByName(tokens[2])
-			} else {
-				fmt.Println("USAGE: lib remove <name>")
-			}
-		default:
-			fmt.Println("Unrecongized lib command:", tokens[1])
+	case "remove":
+		if len(tokens) == 3 {
+			lib.RemoveByName(tokens[2])
+		} else {
+			fmt.Println("USAGE: lib remove <name>")
 		}
+	default:
+		fmt.Println("Unrecongized lib command:", tokens[1])
+	}
 }
 
 func handlePlayCommand(tokens []string) {
@@ -65,14 +66,14 @@ func main() {
 	lib remove <name> -- Remove the specified music from the lib
 	play <name> -- Play the specified music
 	`)
-	
+
 	lib = library.NewMusicManager()
 	r := bufio.NewReader(os.Stdin)
 
 	for {
 		fmt.Print("Enter command -> ")
 		rawLine, _, _ := r.ReadLine()
-		line :=string(rawLine)
+		line := string(rawLine)
 		if line == "q" || line == "e" {
 			break
 		}
@@ -86,4 +87,4 @@ func main() {
 			fmt.Println("Unrecongnized command:", tokens[0])
 		}
 	}
-	}
+}
